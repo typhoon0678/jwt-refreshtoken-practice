@@ -25,26 +25,30 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authorization = request.getHeader("Authorization");
+        String accessToken = request.getHeader("access");
 
-        if (!jwtUtil.isValid(authorization)) {
+        // 토큰이 없으면 다음 필터로 넘김
+        if (accessToken == null) {
 
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authorization.split(" ")[1];
+        if (!jwtUtil.isValid(accessToken, "access")) {
+
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 
         Member loginMember = Member.builder()
-                .username(jwtUtil.getUsername(token))
-                .password("password")
-                .role(jwtUtil.getRole(token))
+                .username(jwtUtil.getUsername(accessToken))
+                .role(jwtUtil.getRole(accessToken))
                 .build();
 
         CustomMemberDetails customMemberDetails = new CustomMemberDetails(loginMember);
+
         Authentication authToken = new UsernamePasswordAuthenticationToken(customMemberDetails, null,
                 customMemberDetails.getAuthorities());
-
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         filterChain.doFilter(request, response);

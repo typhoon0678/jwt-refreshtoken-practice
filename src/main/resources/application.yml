@@ -16,6 +16,9 @@ spring:
 
   jwt:
     secret: 419d36ae9a3db90834303227c39b847818c9bca08ad74efeaf966e6b60c3e5781d6f3f0d709a050ea04de0b7dfcde742cccd7a22e1b4be20975123e33938aac2
+    expired: 
+      access: 600
+      refresh: 86400
 
   
 url:
