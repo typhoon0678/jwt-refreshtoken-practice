@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: jwt_refresh_practice
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: qwer1234
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  jwt:
+    secret: 419d36ae9a3db90834303227c39b847818c9bca08ad74efeaf966e6b60c3e5781d6f3f0d709a050ea04de0b7dfcde742cccd7a22e1b4be20975123e33938aac2
+
+  
+url:
+  frontend: http://localhost:3000
